@@ -1,30 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF to Excel Converter</title>
-    <link rel="stylesheet" href="static/styles.css">
+  <meta charset="UTF-8">
+  <title>PDF to Excel Converter</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-<h1>PDF to Excel Converter</h1>
+  <h1>PDF to Excel Converter</h1>
 
-<div class="container">
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <label for="pdfFile" class="custom-file-upload">Choose a PDF file</label>
-        <input type="file" id="pdfFile" name="pdfFile" accept=".pdf" required>
-        <br>
+  <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
 
-        <p>Select processing option:</p>
-        <input type="radio" id="allText" name="processingOption" value="allText" checked>
-        <label for="allText">PDF Text + Tables</label>
+    <label for="pdfFiles" data-row="01">
+      Select PDF file(s)
+      <input type="file" id="pdfFiles" name="pdfFiles" accept=".pdf" multiple required>
+    </label>
 
-        <input type="radio" id="tablesOnly" name="processingOption" value="tablesOnly">
-        <label for="tablesOnly">Only PDF Tables</label>
+    <fieldset data-row="02">
+      <legend>Processing mode</legend>
+      <label>
+        <input type="radio" name="processingOption" value="tablesOnly" checked>
+        Tables only (structured tables, verbatim)
+      </label>
+      <label>
+        <input type="radio" name="processingOption" value="allText">
+        Full text + tables interleaved
+      </label>
+    </fieldset>
 
-        <br>
-        <button type="submit">Convert to Excel</button>
-    </form>
-</div>
+    <fieldset data-row="03">
+      <legend>Sheet layout</legend>
+      <label>
+        <input type="radio" name="sheetLayout" value="per_pdf" checked>
+        One sheet per PDF
+      </label>
+      <label>
+        <input type="radio" name="sheetLayout" value="per_table">
+        One sheet per table
+      </label>
+      <label>
+        <input type="radio" name="sheetLayout" value="single">
+        Single sheet, all PDFs stacked
+      </label>
+    </fieldset>
+
+    <button type="submit">Convert to Excel</button>
+  </form>
 </body>
 </html>

@@ -1,169 +1,282 @@
-/* static/styles.css */
+/* PDF → Excel Converter
+   Design note: this is a data-conversion utility, so the visual language
+   borrows from the artifact it produces — spreadsheet cells, monospace
+   figures, ruled lines — rather than generic SaaS gradients/cards. */
 
-/* Global Styles */
+:root {
+  --paper: #f7f6f3;
+  --ink: #1f2421;
+  --ink-soft: #5b6460;
+  --rule: #d8d4cb;
+  --cell: #ffffff;
+  --accent: #1c7c54;       /* spreadsheet green, used sparingly */
+  --accent-soft: #e6f0ea;
+  --accent-ink: #0f4a30;
+  --mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-    font-family: Cursive , sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
+  margin: 0;
+  padding: 48px 24px 80px;
+  background: var(--paper);
+  background-image:
+    linear-gradient(var(--rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: -1px -1px;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 h1 {
-    text-align: center;
-    margin-top: 50px;
-    font-size: 50px;
+  max-width: 640px;
+  margin: 0 auto 4px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
 }
 
-.container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 60px;
-    background-color: #ffffff;
-    border: solid black;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+h1::before {
+  content: "A1 ";
+  color: var(--accent);
 }
 
-/* Form Styles */
+h1::after {
+  content: "";
+  display: block;
+  margin-top: 16px;
+  height: 1px;
+  background: var(--rule);
+}
+
+/* The real headline lives visually larger, right under the cell-ref label */
+h1 {
+  font-size: 28px;
+  font-family: var(--sans);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--ink);
+  padding-top: 22px;
+  position: relative;
+}
+
+h1::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
 form {
-    text-align: center;
+  max-width: 640px;
+  margin: 32px auto 0;
+  background: var(--cell);
+  border: 1px solid var(--rule);
+  box-shadow: 0 1px 0 var(--rule), 0 12px 28px -20px rgba(31, 36, 33, 0.35);
 }
 
-.custom-file-upload {
-    display: inline-block;
-    padding: 10px 20px;
-    margin-top: 5px;
-    margin-bottom: auto;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 30px;
-    color: #ffffff;
-    background-color: #158a9a;
-    border: 3px solid #06516c;
-    border-radius: 5px;
-    cursor: pointer;
+/* Form sections are rows in a sheet: a numbered "row header" gutter + content */
+form > label,
+fieldset {
+  display: block;
+  border-bottom: 1px solid var(--rule);
+  padding: 22px 28px 22px 64px;
+  position: relative;
 }
 
-.custom-file-upload:hover {
-    background-color: #0c6557;
+form > label {
+  font-weight: 600;
+  font-size: 14px;
+  padding-bottom: 12px;
+}
+
+form > label::before,
+fieldset::before {
+  content: attr(data-row);
+  position: absolute;
+  left: 0;
+  top: 22px;
+  width: 48px;
+  text-align: right;
+  padding-right: 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+  opacity: 0.55;
 }
 
 input[type="file"] {
-    display: none;
+  display: block;
+  margin-top: 10px;
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 13.5px;
+  color: var(--ink);
+  padding: 10px 0;
 }
 
-button[type="submit"] {
-    display: block;
-    margin-top: 25px;
-    margin-bottom: auto;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 10px 20px;
-    font-size: 30px;
-    color: #fff;
-    background-color: #70a10a;
-    border: 3px solid #435d07;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+input[type="file"]::file-selector-button {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-ink);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  padding: 7px 14px;
+  margin-right: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease;
 }
 
-button[type="submit"]:hover {
-    background-color: #136527;
+input[type="file"]::file-selector-button:hover {
+  background: var(--accent);
+  color: #fff;
 }
 
-/* Download Page Styles */
-p {
-    text-align: center;
-    font-size: 30px;
+fieldset {
+  border: none;
+  border-bottom: 1px solid var(--rule);
 }
 
-.btn-container {
-    text-align: center;
+fieldset:last-of-type {
+  border-bottom: 1px solid var(--rule);
 }
 
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 10px;
-    font-size: 20px;
-    color: #fff;
-    text-decoration: none;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+legend {
+  position: absolute;
+  left: 64px;
+  top: -10px;
+  background: var(--cell);
+  padding: 0 8px 0 0;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
 }
 
-.btn-primary,
-.btn-secondary {
-    display: compact;
-    margin: 0 auto;
-    padding: 10px 20px;
+fieldset label {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 7px 0;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  cursor: pointer;
 }
 
-.btn-primary {
-    background-color: #28a745;
-}
-
-.btn-primary:hover {
-    background-color: #218838;
-}
-
-.btn-secondary {
-    background-color: #007bff;
-}
-
-.btn-secondary:hover {
-    background-color: #0056b3;
-}
-
-.radio-group {
-    display: flex;
-    flex-direction: column;
+fieldset label:has(input:checked) {
+  color: var(--ink);
+  font-weight: 600;
 }
 
 input[type="radio"] {
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  flex: none;
+  border: 1.5px solid var(--rule);
+  border-radius: 2px; /* square-ish, cell-checkbox feel rather than a round radio */
+  position: relative;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+input[type="radio"]:hover {
+  border-color: var(--accent);
+}
+
+input[type="radio"]:checked {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+input[type="radio"]:checked::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  background: var(--accent);
+  border-radius: 1px;
+}
+
+input[type="radio"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button[type="submit"] {
+  display: block;
+  width: calc(100% - 64px);
+  margin: 24px 28px 28px 64px;
+  padding: 13px 20px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-family: var(--sans);
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+button[type="submit"]:hover {
+  background: var(--accent-ink);
+}
+
+button[type="submit"]:active {
+  transform: translateY(1px);
+}
+
+button[type="submit"]:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 3px;
+}
+
+button[type="submit"]::after {
+  content: " →";
+}
+
+@media (prefers-reduced-motion: reduce) {
+  input[type="radio"],
+  button[type="submit"] {
+    transition: none;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 28px 14px 56px;
+  }
+
+  form > label,
+  fieldset {
+    padding-left: 24px;
+  }
+
+  form > label::before,
+  fieldset::before {
     display: none;
-}
+  }
 
-input[type="radio"] + label {
-    position: relative;
-    padding-left: 33px;
-    padding-right: 25px;
-    cursor: context-menu;
-    font-size: 21px;
-}
+  legend {
+    left: 24px;
+  }
 
-input[type="radio"] + label:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 2px;
-    width: 25px;
-    height: 15px;
-    border: 1px solid #605e5e;
-    border-radius: 50%;
-    padding: 1px;
-}
-
-input[type="radio"]:checked + label:before {
-    background-color: #a1a1a1;
-}
-
-input[type="radio"] + label:after {
-    content: '';
-    position: absolute;
-    left: 6px;
-    top: 8px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: white;
-    transform: scale(0);
-    transition: transform 0.2s ease;
-}
-
-input[type="radio"]:checked + label:after {
-    transform: scale(1);
+  button[type="submit"] {
+    width: calc(100% - 48px);
+    margin-left: 24px;
+  }
 }

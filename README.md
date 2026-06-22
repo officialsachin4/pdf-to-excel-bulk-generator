@@ -1,104 +1,158 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+# 📄 PDF to Excel Bulk Generator
 
-# PDF to Excel Converter
+A Python desktop application that converts **multiple PDF files containing structured tables** into **Excel spreadsheets** while preserving the original data as accurately as possible.
 
-## Introduction
+This tool is designed for users who need to process large batches of PDFs without manually copying data into Excel.
 
-<img width="754" height="631" alt="download" src="https://github.com/user-attachments/assets/146f145a-5bd7-45b8-9831-c300a0210c52" />
+---
 
-#
+## ✨ Features
 
-The pdf-to-excel-converter repository provides a web application designed to convert PDF documents into Excel spreadsheets. This application allows users to upload PDF files through a web interface and select specific conversion options, ultimately enabling them to download the processed data as an Excel file.
+* 📁 Bulk PDF processing
+* 📊 Extracts structured tables from PDF files
+* 📄 Converts each PDF into an Excel workbook
+* ⚡ Fast batch conversion
+* 🖥️ Simple and user-friendly GUI (Tkinter)
+* 📂 Select input and output folders
+* 📈 Progress bar with conversion status
+* 📝 Error logging for failed files
+* 💾 Supports `.xlsx` output format
 
-The core functionality of the application is centered around two primary extraction modes:
+---
 
-### All Text + Tables: 
-This mode extracts all textual content and tabular data from the PDF and consolidates it into a single Excel worksheet. This process involves merging diverse data types into a coherent output.
-### Tables Only: 
-This mode focuses exclusively on identifying and extracting tabular data from the PDF. Each detected table is then organized into a separate sheet within the generated Excel workbook. This is particularly useful for PDFs where structured data in tables is the main interest.
-Users interact with the application by navigating to the main page, where they can upload a PDF file and choose their preferred extraction mode. Upon submission, the application processes the PDF, extracts the relevant content, generates an Excel file, and then offers it for download. The web application handles the file upload, initiates the conversion process, and manages the delivery of the final Excel output. The overall architecture is built around a Flask web application, which orchestrates these operations. For more details on the web application's structure and workflow, see Flask Application Structure and Workflow.
+## 📷 Application Workflow
 
-## Table of Contents
+1. Launch the application.
+2. Select the folder containing PDF files.
+3. Choose the output folder.
+4. Click **Convert**.
+5. The application processes all PDFs automatically.
+6. Converted Excel files are saved in the selected output directory.
 
-- [Introduction](#introduction)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-- [Acknowledgements](#acknowledgements)
+---
 
-## Features
+## 🛠 Technologies Used
 
-- Convert entire PDF text content into Excel format.
-- Extract tables from PDF pages and export them as separate sheets in Excel.
-- Easy-to-use web interface for uploading PDF files.
-- Supports multiple processing options for different user needs.
-- Well-structured codebase for easy customization and extension.
+* Python 3.11+
+* Tkinter
+* pdfplumber
+* Camelot
+* Tabula-py
+* pandas
+* openpyxl
 
-## Installation
+---
 
-1. Clone the repository:
+## 📦 Installation
 
-    ```bash
-    git clone https://github.com/yourusername/pdf-to-excel-converter.git
-    ```
+Clone the repository:
 
-2. Navigate to the project directory:
+```bash
+git clone https://github.com/yourusername/pdf-to-excel-bulk-generator.git
+cd pdf-to-excel-bulk-generator
+```
 
-    ```bash
-    cd pdf-to-excel-converter
-    ```
+Install dependencies:
 
-3. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+Run the application:
 
-## Usage
+```bash
+python app.py
+```
 
-1. Start the Flask server:
+---
 
-    ```bash
-    python pdftoexcel.py
-    ```
+## 📁 Project Structure
 
-2. Open your web browser and navigate to http://localhost:5000.
+```
+PDF-To-Excel-Bulk-Generator/
+│
+├── app.py
+├── converter.py
+├── gui.py
+├── utils.py
+├── requirements.txt
+├── README.md
+│
+├── input/
+├── output/
+├── logs/
+└── assets/
+```
 
-3. Upload a PDF file using the provided form.
+---
 
-4. Choose the processing option:
-    - All Text: Convert entire text content of the PDF into an Excel file.
-    - Tables Only: Extract tables from the PDF and export them as separate sheets in Excel.
+## 📄 Supported Input
 
-5. Click on the "Convert" button and wait for the conversion to complete.
+* Text-based PDF files
+* PDFs containing structured tables
+* Multiple PDF files in a single folder
 
-6. Download the generated Excel file.
+---
 
-## Contributing
+## 📊 Output
 
-Contributions are welcome! Please follow these steps to contribute:
+Each PDF is converted into an Excel workbook.
+
+Example:
+
+```
+Invoice1.pdf
+        ↓
+Invoice1.xlsx
+
+Report.pdf
+        ↓
+Report.xlsx
+```
+
+---
+
+## ⚠ Limitations
+
+* Scanned PDFs require OCR before conversion.
+* Highly complex layouts may require manual verification.
+* Password-protected PDFs are not supported.
+
+---
+
+## 🚀 Future Improvements
+
+* OCR support using Tesseract
+* Drag-and-drop PDF upload
+* Merge all PDFs into a single Excel workbook
+* Multi-threaded processing
+* Export to CSV
+* AI-powered table detection
+* Executable (.exe) version for Windows
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
 
 1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/yourfeature`).
-3. Make your changes.
-4. Commit your changes (`git commit -am 'Add new feature'`).
-5. Push to the branch (`git push origin feature/yourfeature`).
-6. Create a new Pull Request.
+2. Create a feature branch.
+3. Commit your changes.
+4. Open a Pull Request.
 
-- **Documentation**: [docs/](docs/) folder
-- **Bug Reports**: [GitHub Issues](https://github.com/TsvetanG2/PDF-To-Excel-Converter/issues)
-- **Feature Requests**: [GitHub Discussions](https://github.com/TsvetanG2/PDF-To-Excel-Converter/discussions)
-- **Show Support**: Star the repository if you find it useful!
+---
 
-## License
+## 📜 License
 
-This project is licensed under the MIT License - see the [LICENSE](https://opensource.org/license/MIT) file for details.
+This project is licensed under the MIT License.
 
-## Acknowledgements
+---
 
-- [pdfplumber](https://github.com/jsvine/pdfplumber)
-- [tabula-py](https://github.com/chezou/tabula-py)
-- [Flask](https://flask.palletsprojects.com/)
+## 👨‍💻 Author
 
+**Sachin Sharma**
+
+Python Automation Engineer | Playwright | Desktop Automation | PDF Processing | Java | Spring Boot | .NET
+
+If you found this project useful, consider giving it a ⭐ on GitHub!
